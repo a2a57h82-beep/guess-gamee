@@ -1,0 +1,35 @@
+<Game>:
+    orientation: "vertical"
+    padding: 20
+    spacing: 15
+
+    Label:
+        text: "لعبة تخمين الرقم"
+        font_size: "28sp"
+        font_name: "NotoNaskhArabic-VariableFont_wght.ttf"
+        size_hint_y: None
+        height: "50dp"
+
+    TextInput:
+        id: guess
+        hint_text: "أدخل الرقم السري أولاً"
+        multiline: False
+        password: True
+        input_filter: "int"
+        font_size: "24sp"
+        font_name: "NotoNaskhArabic-VariableFont_wght.ttf"
+        size_hint_y: None
+        height: "50dp"
+
+    Button:
+        text: "التالي"
+        font_name: "NotoNaskhArabic-VariableFont_wght.ttf"
+        size_hint_y: None
+        height: "50dp"
+        on_release: root.check()
+
+    Label:
+        id: result
+        text: "أدخل الرقم السري ثم اضغط التالي"
+        font_size: "20sp"
+        font_name: "NotoNaskhArabic-VariableFont_wght.ttf"
