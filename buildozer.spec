@@ -4,7 +4,7 @@ package.name = guessgame
 package.domain = org.example
 
 source.dir = .
-source.include_exts = py,kv,png,jpg,kv,atlas
+source.include_exts = py,kv,png,jpg,atlas
 
 version = 1.0
 
@@ -22,3 +22,4 @@ android.api = 34
 android.minapi = 24
 android.archs = arm64-v8a,armeabi-v7a
 android.accept_sdk_license = True
+android.ndk = 28c
