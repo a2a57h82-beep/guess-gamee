@@ -1,29 +1,54 @@
-[app]
+name: Build APK
 
-title = Guess Game
-package.name = guessgame
-package.domain = org.example
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
-source.dir = .
-source.include_exts = py,kv,png,jpg,atlas
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-version = 1.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-requirements = python3,kivy
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-orientation = portrait
-fullscreen = 0
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
 
-[buildozer]
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v3
 
-log_level = 2
-warn_on_root = 1
+      - name: Accept Android SDK Licenses
+        run: |
+          yes | sdkmanager --licenses
 
-[android]
+      - name: Install Android SDK Packages
+        run: |
+          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
-android.api = 34
-android.minapi = 24
-android.ndk = 25b
-android.archs = arm64-v8a, armeabi-v7a
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install "buildozer @ git+https://github.com/kivy/buildozer.git"
+          pip install Cython==0.29.37
 
-android.accept_sdk_license = True
+      - name: Build APK
+        run: |
+          buildozer android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: APK
+          path: bin/*.apk
+        
